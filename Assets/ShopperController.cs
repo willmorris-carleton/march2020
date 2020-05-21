@@ -8,6 +8,7 @@ public class ShopperController : MonoBehaviour
 
     public Transform goal;
     public Rigidbody hipsRB;
+    public Collider col;
     public bool isAlive { get; private set; }
 
     private Animator animator;
@@ -30,17 +31,22 @@ public class ShopperController : MonoBehaviour
         }
     }
 
-    public void killShopper()
+    public void killShopper(bool upKillTally=true)
     {
+        if (!isAlive) return;
         agent.enabled = false;
         animator.enabled = false;
+        col.enabled = false;
         isAlive = false;
         ShopperSpawn.currentNumberOfShoppers--;
+        if (upKillTally) GameManager.shoppersKilled++;
+        hipsRB.AddForce(Vector3.up * 200f, ForceMode.Impulse);
         Destroy(gameObject, 5f);
     }
 
     private void updateNavAgentDestination()
     {
+        if (goal != null)
         agent.destination = goal.position;
     }
 

@@ -38,7 +38,9 @@ public class ShopperSpawn : MonoBehaviour
                 GameObject shopper = Instantiate(shopperPrefab, transform.position, transform.rotation);
                 int characterModel = Random.Range(0, 8);
                 shopper.transform.GetChild(characterModel).gameObject.SetActive(true);
-                shopper.GetComponent<ShopperController>().goal = GameObject.FindGameObjectWithTag("Goal").transform;
+                GameObject goalObj = GameObject.FindGameObjectWithTag("Goal");
+                if (goalObj)
+                    shopper.GetComponent<ShopperController>().goal = goalObj.transform;
                 currentNumberOfShoppers++;
             }
             
